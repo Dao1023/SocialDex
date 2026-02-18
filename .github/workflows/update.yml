@@ -21,20 +21,10 @@ jobs:
         run: |
           pip install requests
 
-      - name: 初始化数据库
+      - name: 运行更新
         run: |
-          cd src
-          python database.py
-
-      - name: 爬取数据
-        run: |
-          cd src
-          python crawler.py
-
-      - name: 生成前端
-        run: |
-          cd src
-          python generate.py
+          export PYTHONPATH="${GITHUB_WORKSPACE}/src"
+          python run.py
 
       - name: 提交更新
         run: |

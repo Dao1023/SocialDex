@@ -1,7 +1,7 @@
 import json
 import sqlite3
 from pathlib import Path
-from .database import DB_PATH
+from database import DB_PATH
 
 FRONTEND_DIR = Path(__file__).parent.parent / "frontend"
 
