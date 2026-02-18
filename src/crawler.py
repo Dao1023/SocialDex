@@ -1,6 +1,6 @@
 import time
 import requests
-from database import get_authors_for_crawl, save_follower
+from .database import get_authors_for_crawl, save_follower
 
 def get_bilibili_followers(uid):
     """获取 B 站用户粉丝数"""

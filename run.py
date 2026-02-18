@@ -4,9 +4,9 @@ SocialDex 主运行脚本
 执行完整流程：初始化数据库 -> 爬取数据 -> 生成前端
 """
 
-from database import init_db, sync_authors
-from crawler import crawl_all
-from generate import generate_html
+from src.database import init_db, sync_authors
+from src.crawler import crawl_all
+from src.generate import generate_html
 
 def main():
     print("=" * 50)

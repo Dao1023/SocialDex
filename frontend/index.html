@@ -1,82 +1,4 @@
-import json
-import sqlite3
-from pathlib import Path
-from .database import DB_PATH
-
-FRONTEND_DIR = Path(__file__).parent.parent / "frontend"
-
-def calculate_index_value(authors_data, divisor=10000):
-    """计算指数值"""
-    total = sum(a["followers"] for a in authors_data)
-    return round(total / divisor, 2)
-
-def generate_index_data():
-    """生成指数数据"""
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-
-    index_data = {}
-
-    # 蓝筹指数：粉丝量前100的作者
-    c.execute('''
-        SELECT a.name, h.followers_count
-        FROM authors a
-        JOIN follower_history h ON a.id = h.author_id
-        WHERE h.recorded_at = (
-            SELECT MAX(recorded_at) FROM follower_history WHERE author_id = a.id
-        )
-        ORDER BY h.followers_count DESC
-        LIMIT 100
-    ''')
-
-    rows = c.fetchall()
-    if rows:
-        authors = [{"name": r[0], "followers": r[1]} for r in rows]
-        index_data["蓝筹100"] = {
-            "value": calculate_index_value(authors),
-            "count": len(authors),
-            "authors": authors
-        }
-
-    # 获取所有 tag
-    c.execute('SELECT DISTINCT tag FROM author_tags')
-    tags = [r[0] for r in c.fetchall()]
-
-    for tag in tags:
-        # 获取该 tag 下所有作者的最新粉丝数
-        c.execute('''
-            SELECT a.name, h.followers_count
-            FROM authors a
-            JOIN author_tags t ON a.id = t.author_id
-            JOIN follower_history h ON a.id = h.author_id
-            WHERE t.tag = ? AND h.recorded_at = (
-                SELECT MAX(recorded_at) FROM follower_history WHERE author_id = a.id
-            )
-        ''', (tag,))
-
-        rows = c.fetchall()
-        if rows:
-            authors = [{"name": r[0], "followers": r[1]} for r in rows]
-            index_data[tag] = {
-                "value": calculate_index_value(authors),
-                "count": len(authors),
-                "authors": authors
-            }
-
-    conn.close()
-    return index_data
-
-def generate_html():
-    """生成前端 HTML"""
-    FRONTEND_DIR.mkdir(exist_ok=True)
-
-    index_data = generate_index_data()
-
-    # 生成数据文件（保留，用于调试）
-    with open(FRONTEND_DIR / "data.json", "w", encoding="utf-8") as f:
-        json.dump(index_data, f, ensure_ascii=False, indent=2)
-
-    html_content = '''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -172,7 +94,7 @@ def generate_html():
     <div class="update-time">更新时间: <span id="updateTime"></span></div>
 
     <script>
-        const data = {json_data};
+        const data = {"蓝筹100": {"value": 4993.73, "count": 5, "authors": [{"name": "原神", "followers": 20465065}, {"name": "崩铁", "followers": 11814166}, {"name": "绝区零", "followers": 7771536}, {"name": "鸣潮", "followers": 4962403}, {"name": "崩坏3", "followers": 4924155}]}, "二游": {"value": 4993.73, "count": 5, "authors": [{"name": "原神", "followers": 20465065}, {"name": "崩坏3", "followers": 4924155}, {"name": "鸣潮", "followers": 4962403}, {"name": "崩铁", "followers": 11814166}, {"name": "绝区零", "followers": 7771536}]}};
 
         const grid = document.getElementById('indexGrid');
         const updateTime = new Date().toLocaleString('zh-CN');
@@ -206,15 +128,4 @@ def generate_html():
         });
     </script>
 </body>
-</html>'''
-
-    # 将数据注入到 HTML
-    html_content = html_content.replace('{json_data}', json.dumps(index_data, ensure_ascii=False))
-
-    with open(FRONTEND_DIR / "index.html", "w", encoding="utf-8") as f:
-        f.write(html_content)
-
-    print(f"前端文件已生成到 {FRONTEND_DIR}")
-
-if __name__ == "__main__":
-    generate_html()
+</html>
