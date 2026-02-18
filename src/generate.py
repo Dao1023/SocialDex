@@ -44,12 +44,16 @@ def generate_index_data():
 
         series = []
         for ts in timestamps:
-            # 计算该时间点的指数值
+            # 计算该时间点的指数值（使用每个作者在该时间点及之前的最新记录）
             c.execute('''
                 SELECT SUM(h.followers_count)
                 FROM follower_history h
                 WHERE h.author_id IN ({})
-                AND h.recorded_at = ?
+                AND h.recorded_at = (
+                    SELECT MAX(recorded_at)
+                    FROM follower_history h2
+                    WHERE h2.author_id = h.author_id AND h2.recorded_at <= ?
+                )
             '''.format(','.join('?' * len(author_ids))), author_ids + [ts])
 
             total = c.fetchone()[0] or 0
@@ -67,7 +71,11 @@ def generate_index_data():
             SELECT SUM(h.followers_count)
             FROM follower_history h
             WHERE h.author_id IN ({})
-            AND h.recorded_at = ?
+            AND h.recorded_at = (
+                SELECT MAX(recorded_at)
+                FROM follower_history h2
+                WHERE h2.author_id = h.author_id AND h2.recorded_at <= ?
+            )
         '''.format(','.join('?' * len(blue_chip_ids))), blue_chip_ids + [ts])
 
         total = c.fetchone()[0] or 0
