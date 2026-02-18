@@ -224,8 +224,7 @@
                 platform: 'bilibili',
                 uid: '',
                 name: '',
-                tags: [],
-                blue_chip: false
+                tags: []
             };
             config.authors.push(newAuthor);
             currentAuthorIndex = config.authors.length - 1;
@@ -317,14 +316,6 @@
                             <span class="tag-option ${author.tags.includes(tag) ? 'selected' : ''}"
                                   onclick="toggleTag(${currentAuthorIndex}, '${tag}')">${tag}</span>
                         `).join('')}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="blue_chip" ${author.blue_chip ? 'checked' : ''}
-                               onchange="updateAuthor(${currentAuthorIndex}, 'blue_chip', this.checked)">
-                        <label for="blue_chip" style="margin-bottom: 0;">蓝筹成分股（计入蓝筹100指数）</label>
                     </div>
                 </div>
 

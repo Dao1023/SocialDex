@@ -19,7 +19,6 @@ def init_db():
             uid TEXT NOT NULL,
             name TEXT NOT NULL,
             avatar TEXT,
-            blue_chip BOOLEAN DEFAULT 0,
             UNIQUE(platform, uid)
         )
     ''')
@@ -64,18 +63,16 @@ def sync_authors():
     for author in config.get("authors", []):
         # 插入或更新作者
         c.execute('''
-            INSERT INTO authors (platform, uid, name, avatar, blue_chip)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO authors (platform, uid, name, avatar)
+            VALUES (?, ?, ?, ?)
             ON CONFLICT(platform, uid) DO UPDATE SET
                 name = excluded.name,
-                avatar = excluded.avatar,
-                blue_chip = excluded.blue_chip
+                avatar = excluded.avatar
         ''', (
             author.get("platform", "bilibili"),
             author["uid"],
             author["name"],
-            author.get("avatar", ""),
-            author.get("blue_chip", False)
+            author.get("avatar", "")
         ))
 
         # 获取 author_id

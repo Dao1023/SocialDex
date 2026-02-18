@@ -4,29 +4,25 @@
       "platform": "bilibili",
       "uid": "208259",
       "name": "罗翔说刑法",
-      "tags": ["知识", "法律"],
-      "blue_chip": true
+      "tags": ["知识", "法律"]
     },
     {
       "platform": "bilibili",
       "uid": "546195",
       "name": "老番茄",
-      "tags": ["游戏", "娱乐"],
-      "blue_chip": true
+      "tags": ["游戏", "娱乐"]
     },
     {
       "platform": "bilibili",
       "uid": "353048703",
       "name": "小约翰可汗",
-      "tags": ["知识", "历史"],
-      "blue_chip": true
+      "tags": ["知识", "历史"]
     },
     {
       "platform": "bilibili",
       "uid": "150239977",
       "name": "极地之手",
-      "tags": ["游戏"],
-      "blue_chip": false
+      "tags": ["游戏"]
     }
   ]
 }

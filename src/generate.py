@@ -15,11 +15,32 @@ def generate_index_data():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
 
+    index_data = {}
+
+    # 蓝筹指数：粉丝量前100的作者
+    c.execute('''
+        SELECT a.name, h.followers_count
+        FROM authors a
+        JOIN follower_history h ON a.id = h.author_id
+        WHERE h.recorded_at = (
+            SELECT MAX(recorded_at) FROM follower_history WHERE author_id = a.id
+        )
+        ORDER BY h.followers_count DESC
+        LIMIT 100
+    ''')
+
+    rows = c.fetchall()
+    if rows:
+        authors = [{"name": r[0], "followers": r[1]} for r in rows]
+        index_data["蓝筹100"] = {
+            "value": calculate_index_value(authors),
+            "count": len(authors),
+            "authors": authors
+        }
+
     # 获取所有 tag
     c.execute('SELECT DISTINCT tag FROM author_tags')
     tags = [r[0] for r in c.fetchall()]
-
-    index_data = {}
 
     for tag in tags:
         # 获取该 tag 下所有作者的最新粉丝数
