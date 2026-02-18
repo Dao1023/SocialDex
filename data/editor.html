@@ -121,10 +121,29 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 13px;
+            position: relative;
         }
         .tag-option.selected {
             background: #238636;
             border-color: #238636;
+        }
+        .tag-delete {
+            margin-left: 6px;
+            color: #f85149;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .tag-delete:hover {
+            color: #da3633;
+        }
+        .new-tag-input {
+            padding: 6px 10px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 4px;
+            color: #c9d1d9;
+            font-size: 13px;
+            width: 100px;
         }
         .checkbox-group {
             display: flex;
@@ -175,12 +194,28 @@
     </div>
 
     <script>
-        // 预设标签
-        const PRESET_TAGS = ['知识', '法律', '游戏', '娱乐', '生活', '科技', '财经', '美食', '旅行', '音乐', '影视', '体育', '时尚', '汽车', '教育', '历史', '军事', '三农', '家居', '健康', '母婴', '宠物', '二次元', 'VUP'];
+        // 默认标签
+        const DEFAULT_TAGS = ['知识', '法律', '游戏', '娱乐', '生活', '科技', '财经', '美食', '旅行', '音乐', '影视', '体育', '时尚', '汽车', '教育', '历史', '军事', '三农', '家居', '健康', '母婴', '宠物', '二次元', 'VUP'];
 
         // 数据存储
         let config = { authors: [] };
         let currentAuthorIndex = -1;
+
+        // 从 localStorage 获取标签
+        function getTags() {
+            const stored = localStorage.getItem('socialdex_tags');
+            if (stored) {
+                return JSON.parse(stored);
+            }
+            // 首次使用，初始化默认标签
+            localStorage.setItem('socialdex_tags', JSON.stringify(DEFAULT_TAGS));
+            return DEFAULT_TAGS;
+        }
+
+        // 保存标签到 localStorage
+        function saveTags(tags) {
+            localStorage.setItem('socialdex_tags', JSON.stringify(tags));
+        }
 
         // 初始化
         document.getElementById('importFile').addEventListener('change', importConfig);
@@ -199,9 +234,8 @@
                     currentAuthorIndex = -1;
                     renderAuthorList();
                     renderMainPanel();
-                    alert('配置导入成功');
                 } catch (err) {
-                    alert('配置文件格式错误');
+                    console.error('配置文件格式错误', err);
                 }
             };
             reader.readAsText(file);
@@ -287,6 +321,7 @@
             }
 
             const author = config.authors[currentAuthorIndex];
+            const tags = getTags();
 
             mainEl.innerHTML = `
                 <div class="form-group">
@@ -312,10 +347,15 @@
                 <div class="form-group">
                     <label>标签（可多选）</label>
                     <div class="tags-select">
-                        ${PRESET_TAGS.map(tag => `
+                        ${tags.map(tag => `
                             <span class="tag-option ${author.tags.includes(tag) ? 'selected' : ''}"
-                                  onclick="toggleTag(${currentAuthorIndex}, '${tag}')">${tag}</span>
+                                  onclick="toggleTag(${currentAuthorIndex}, '${tag}')">
+                                ${tag}
+                                <span class="tag-delete" onclick="event.stopPropagation(); deleteTag('${tag}')">×</span>
+                            </span>
                         `).join('')}
+                        <input type="text" id="newTagInput" class="new-tag-input" placeholder="新标签" onkeypress="if(event.key==='Enter') addNewTag()">
+                        <button class="btn btn-secondary" onclick="addNewTag()">+</button>
                     </div>
                 </div>
 
@@ -342,6 +382,40 @@
             } else {
                 author.tags.splice(tagIndex, 1);
             }
+            renderAuthorList();
+            renderMainPanel();
+        }
+
+        // 添加新标签
+        function addNewTag() {
+            const input = document.getElementById('newTagInput');
+            const newTag = input.value.trim();
+
+            if (!newTag) return;
+
+            const tags = getTags();
+            if (tags.includes(newTag)) return;
+
+            tags.push(newTag);
+            saveTags(tags);
+            renderMainPanel();
+
+            // 清空输入框并聚焦
+            input.value = '';
+            input.focus();
+        }
+
+        // 删除标签
+        function deleteTag(tag) {
+            let tags = getTags();
+            tags = tags.filter(t => t !== tag);
+            saveTags(tags);
+
+            // 从所有 UP 主的标签中删除
+            config.authors.forEach(author => {
+                author.tags = author.tags.filter(t => t !== tag);
+            });
+
             renderAuthorList();
             renderMainPanel();
         }
