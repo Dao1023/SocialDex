@@ -2,27 +2,43 @@
   "authors": [
     {
       "platform": "bilibili",
-      "uid": "208259",
-      "name": "罗翔说刑法",
-      "tags": ["知识", "法律"]
+      "uid": "401742377",
+      "name": "原神",
+      "tags": [
+        "二游"
+      ]
     },
     {
       "platform": "bilibili",
-      "uid": "546195",
-      "name": "老番茄",
-      "tags": ["游戏", "娱乐"]
+      "uid": "27534330",
+      "name": "崩坏3",
+      "tags": [
+        "二游"
+      ]
     },
     {
       "platform": "bilibili",
-      "uid": "353048703",
-      "name": "小约翰可汗",
-      "tags": ["知识", "历史"]
+      "uid": "1955897084",
+      "name": "鸣潮",
+      "tags": [
+        "二游"
+      ]
     },
     {
       "platform": "bilibili",
-      "uid": "150239977",
-      "name": "极地之手",
-      "tags": ["游戏"]
+      "uid": "1340190821",
+      "name": "崩铁",
+      "tags": [
+        "二游"
+      ]
+    },
+    {
+      "platform": "bilibili",
+      "uid": "1636034895",
+      "name": "绝区零",
+      "tags": [
+        "二游"
+      ]
     }
   ]
 }
