@@ -4,41 +4,31 @@
       "platform": "bilibili",
       "uid": "401742377",
       "name": "原神",
-      "tags": [
-        "二游"
-      ]
+      "tags": ["二游", "米哈游"]
     },
     {
       "platform": "bilibili",
       "uid": "27534330",
       "name": "崩坏3",
-      "tags": [
-        "二游"
-      ]
+      "tags": ["二游", "米哈游"]
     },
     {
       "platform": "bilibili",
       "uid": "1955897084",
       "name": "鸣潮",
-      "tags": [
-        "二游"
-      ]
+      "tags": ["二游", "库洛"]
     },
     {
       "platform": "bilibili",
       "uid": "1340190821",
       "name": "崩铁",
-      "tags": [
-        "二游"
-      ]
+      "tags": ["二游", "米哈游"]
     },
     {
       "platform": "bilibili",
       "uid": "1636034895",
       "name": "绝区零",
-      "tags": [
-        "二游"
-      ]
+      "tags": ["二游", "米哈游"]
     },
     {
       "platform": "bilibili",
@@ -48,6 +38,72 @@
         "Galgame",
         "二次元"
       ]
+    },
+    {
+      "platform": "bilibili",
+      "uid": "133934",
+      "name": "崩坏学园2-灵依娘desu",
+      "tags": ["二游", "米哈游"]
+    },
+    {
+      "platform": "bilibili",
+      "uid": "30973654",
+      "name": "阴阳师",
+      "tags": ["二游", "网易"]
+    },
+    {
+      "platform": "bilibili",
+      "uid": "626796832",
+      "name": "洛克王国世界",
+      "tags": ["二游", "腾讯"]
+    },
+    {
+      "platform": "bilibili",
+      "uid": "382651856",
+      "name": "战双帕弥什",
+      "tags": ["二游", "库洛"]
+    },
+    {
+      "platform": "bilibili",
+      "uid": "161775300",
+      "name": "明日方舟",
+      "tags": ["二游", "鹰角网络"]
+    },
+    {
+      "platform": "bilibili",
+      "uid": "1265652806",
+      "name": "终末地",
+      "tags": ["二游", "鹰角网络"]
+    },
+    {
+      "platform": "bilibili",
+      "uid": "3546636978489848",
+      "name": "异环",
+      "tags": ["二游", "幻塔游戏"]
+    },
+    {
+      "platform": "bilibili",
+      "uid": "353840826",
+      "name": "公主连结",
+      "tags": ["二游", "Cygames"]
+    },
+    {
+      "platform": "bilibili",
+      "uid": "3461579184015582",
+      "name": "闪耀优俊少女",
+      "tags": ["二游", "Cygames"]
+    },
+    {
+      "platform": "bilibili",
+      "uid": "3493265644980448",
+      "name": "蔚蓝档案",
+      "tags": ["二游", "NEXON"]
+    },
+    {
+      "platform": "bilibili",
+      "uid": "233114659",
+      "name": "碧蓝航线",
+      "tags": ["二游", "蛮啾网络"]
     }
   ]
 }
