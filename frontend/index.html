@@ -1,122 +1,14 @@
-<!DOCTYPE html>
-<html lang="zh-CN" data-theme="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialDex - 社会思潮指数</title>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet" type="text/css" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-</head>
-<body class="min-h-screen">
-    <div class="navbar bg-base-100 border-b border-base-300 px-6">
-        <div class="flex-1 gap-3">
-            <span class="text-2xl font-bold">SocialDex</span>
-            <span class="text-sm opacity-50">社会思潮指数 - 基于自媒体粉丝量的板块轮动观察</span>
-        </div>
-        <div class="flex-none">
-            <span class="text-xs opacity-40" id="updateTime"></span>
-        </div>
-    </div>
-
-    <div id="chart" style="width:100%; height:calc(100vh - 64px);"></div>
-
-    <script>
-        async function init() {
-            try {
-                const resp = await fetch('./data.json');
-                if (!resp.ok) throw new Error('加载失败');
-                const data = await resp.json();
-                renderChart(data);
-            } catch (e) {
-                document.getElementById('chart').innerHTML =
-                    '<div class="flex items-center justify-center h-full"><div class="text-center"><p class="text-xl mb-2">数据加载失败</p><p class="text-sm opacity-50">请确保 data.json 存在于同目录下</p></div></div>';
-            }
-        }
-
-        function renderChart(data) {
-            const chart = echarts.init(document.getElementById('chart'));
-
-            const series = Object.keys(data).map(tag => ({
-                name: tag,
-                type: 'line',
-                data: data[tag].map(d => [d.time, d.value]),
-                smooth: true,
-                symbol: 'none',
-                lineStyle: { width: 2 }
-            }));
-
-            // 显示最新更新时间
-            const allTimes = Object.values(data).flat().map(d => d.time).sort();
-            if (allTimes.length) {
-                document.getElementById('updateTime').textContent = '更新至 ' + allTimes[allTimes.length - 1];
-            }
-
-            const option = {
-                backgroundColor: 'transparent',
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: { type: 'cross' },
-                    backgroundColor: 'rgba(29,35,42,0.9)',
-                    borderColor: '#2a3240',
-                    textStyle: { color: '#a6afa8' }
-                },
-                legend: {
-                    data: Object.keys(data),
-                    textStyle: { color: '#a6afa8' },
-                    top: 10
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '15%',
-                    containLabel: true
-                },
-                dataZoom: [
-                    {
-                        type: 'inside',
-                        start: 0,
-                        end: 100,
-                        zoomOnMouseWheel: true,
-                        moveOnMouseMove: true,
-                        moveOnMouseWheel: false
-                    },
-                    {
-                        start: 0,
-                        end: 100,
-                        handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23.1h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                        handleSize: '80%',
-                        handleStyle: {
-                            color: '#fff',
-                            shadowBlur: 3,
-                            shadowColor: 'rgba(0, 0, 0, 0.6)',
-                            shadowOffsetX: 2,
-                            shadowOffsetY: 2
-                        },
-                        textStyle: { color: '#a6afa8' },
-                        borderColor: '#2a3240',
-                        fillerColor: 'rgba(99,179,237,0.1)'
-                    }
-                ],
-                xAxis: {
-                    type: 'time',
-                    axisLine: { lineStyle: { color: '#2a3240' } },
-                    axisLabel: { color: '#6b7f99' }
-                },
-                yAxis: {
-                    type: 'value',
-                    axisLine: { lineStyle: { color: '#2a3240' } },
-                    axisLabel: { color: '#6b7f99' },
-                    splitLine: { lineStyle: { color: '#1f2937' } }
-                },
-                series: series
-            };
-
-            chart.setOption(option);
-            window.addEventListener('resize', () => chart.resize());
-        }
-
-        init();
-    </script>
-</body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>web</title>
+    <script type="module" crossorigin src="/assets/index-DMRcSah6.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D9Q27uM3.css">
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
 </html>

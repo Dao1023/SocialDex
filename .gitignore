@@ -12,6 +12,9 @@ wheels/
 # 特殊目录
 temp/
 
+# 前端
+web/node_modules/
+
 # 开发工具
 .obsidian/
 .claude/
